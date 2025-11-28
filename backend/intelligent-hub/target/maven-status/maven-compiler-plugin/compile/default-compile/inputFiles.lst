@@ -1,0 +1,8 @@
+/Users/keer/Desktop/smartFA/backend/intelligent-hub/src/main/java/com/smartfa/hub/controller/TaskController.java
+/Users/keer/Desktop/smartFA/backend/intelligent-hub/src/main/java/com/smartfa/hub/IntelligentHubApplication.java
+/Users/keer/Desktop/smartFA/backend/intelligent-hub/src/main/java/com/smartfa/hub/dto/TaskUpdateDTO.java
+/Users/keer/Desktop/smartFA/backend/intelligent-hub/src/main/java/com/smartfa/hub/service/TaskService.java
+/Users/keer/Desktop/smartFA/backend/intelligent-hub/src/main/java/com/smartfa/hub/dto/TaskCreateDTO.java
+/Users/keer/Desktop/smartFA/backend/intelligent-hub/src/main/java/com/smartfa/hub/entity/Task.java
+/Users/keer/Desktop/smartFA/backend/intelligent-hub/src/main/java/com/smartfa/hub/dto/SubTaskDto.java
+/Users/keer/Desktop/smartFA/backend/intelligent-hub/src/main/java/com/smartfa/hub/service/TaskDecompositionService.java

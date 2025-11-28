@@ -1,0 +1,39 @@
+-------------------------------------------------------------------------------
+Test set: com.smartfa.workbench.controller.CaseControllerTest
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 9.962 s <<< FAILURE! -- in com.smartfa.workbench.controller.CaseControllerTest
+com.smartfa.workbench.controller.CaseControllerTest.testCreateCase_ValidationError -- Time elapsed: 0.025 s <<< FAILURE!
+java.lang.AssertionError: Status expected:<400> but was:<200>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.smartfa.workbench.controller.CaseControllerTest.testCreateCase_ValidationError(CaseControllerTest.java:271)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+com.smartfa.workbench.controller.CaseControllerTest.testCreateCase_Forbidden -- Time elapsed: 0.030 s <<< FAILURE!
+java.lang.AssertionError: Status expected:<403> but was:<200>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$9(StatusResultMatchers.java:637)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.smartfa.workbench.controller.CaseControllerTest.testCreateCase_Forbidden(CaseControllerTest.java:256)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
+com.smartfa.workbench.controller.CaseControllerTest.testGetCases_Success -- Time elapsed: 0.049 s <<< FAILURE!
+java.lang.AssertionError: No value at JSON path "$.data.records"
+	at org.springframework.test.util.JsonPathExpectationsHelper.evaluateJsonPath(JsonPathExpectationsHelper.java:302)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertExistsAndReturn(JsonPathExpectationsHelper.java:326)
+	at org.springframework.test.util.JsonPathExpectationsHelper.assertValueIsArray(JsonPathExpectationsHelper.java:165)
+	at org.springframework.test.web.servlet.result.JsonPathResultMatchers.lambda$isArray$12(JsonPathResultMatchers.java:226)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.smartfa.workbench.controller.CaseControllerTest.testGetCases_Success(CaseControllerTest.java:82)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+Caused by: com.jayway.jsonpath.PathNotFoundException: Expected to find an object with property ['records'] in path $['data'] but found 'null'. This is not a json object according to the JsonProvider: 'com.jayway.jsonpath.spi.json.JsonSmartJsonProvider'.
+

@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smartfa-multi-agent-cluster
+  namespace: smartfa
+  labels:
+    app: smartfa-multi-agent-cluster
+    component: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: smartfa-multi-agent-cluster
+  template:
+    metadata:
+      labels:
+        app: smartfa-multi-agent-cluster
+        component: backend
+    spec:
+      containers:
+      - name: multi-agent-cluster
+        image: smartfa/multi-agent-cluster:latest
+        ports:
+        - containerPort: 8082
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "kubernetes"
+        - name: DB_HOST
+          value: "postgresql-service"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: "smartfa"
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka-service:9092"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1500m"
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8082
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8082
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: smartfa-config
+      imagePullSecrets:
+      - name: registry-secret

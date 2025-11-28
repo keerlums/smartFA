@@ -1,0 +1,11 @@
+com/smartfa/workbench/config/WebConfig.class
+com/smartfa/workbench/config/MinioConfig.class
+com/smartfa/workbench/entity/FileEntity$ProcessStatus.class
+com/smartfa/workbench/service/FileService.class
+com/smartfa/workbench/MultimodalWorkbenchApplication.class
+com/smartfa/workbench/entity/FileEntity.class
+com/smartfa/workbench/controller/FileController.class
+com/smartfa/workbench/service/MinioService.class
+com/smartfa/workbench/controller/CaseController.class
+com/smartfa/workbench/service/FileServiceImpl.class
+com/smartfa/workbench/entity/FileEntity$FileType.class

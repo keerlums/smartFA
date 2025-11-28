@@ -1,0 +1,175 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "SmartFA 系统监控",
+    "tags": ["smartfa"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "服务健康状态",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "up{job=~\"smartfa-.*\"}",
+            "legendFormat": "{{job}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "text": "DOWN",
+                    "color": "red"
+                  },
+                  "1": {
+                    "text": "UP",
+                    "color": "green"
+                  }
+                },
+                "type": "value"
+              }
+            ]
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "CPU使用率",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(process_cpu_seconds_total{job=~\"smartfa-.*\"}[5m]) * 100",
+            "legendFormat": "{{job}}"
+          }
+        ],
+        "yAxes": [
+          {
+            "max": 100,
+            "min": 0,
+            "unit": "percent"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "内存使用率",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "(jvm_memory_used_bytes{job=~\"smartfa-.*\"} / jvm_memory_max_bytes{job=~\"smartfa-.*\"}) * 100",
+            "legendFormat": "{{job}}"
+          }
+        ],
+        "yAxes": [
+          {
+            "max": 100,
+            "min": 0,
+            "unit": "percent"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 4,
+        "title": "任务执行统计",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(task_completed_total{job=\"intelligent-hub\"}[5m])",
+            "legendFormat": "完成率"
+          },
+          {
+            "expr": "rate(task_failed_total{job=\"intelligent-hub\"}[5m])",
+            "legendFormat": "失败率"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 8
+        }
+      },
+      {
+        "id": 5,
+        "title": "智能体状态分布",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "count by (status) (agent_status{job=\"multi-agent-cluster\"})",
+            "legendFormat": "{{status}}"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 16
+        }
+      },
+      {
+        "id": 6,
+        "title": "API请求率",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{job=~\"smartfa-.*\"}[5m])",
+            "legendFormat": "{{job}} {{method}} {{uri}}"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 16
+        }
+      },
+      {
+        "id": 7,
+        "title": "响应时间",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=~\"smartfa-.*\"}[5m]))",
+            "legendFormat": "95th percentile - {{job}}"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket{job=~\"smartfa-.*\"}[5m]))",
+            "legendFormat": "50th percentile - {{job}}"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 24
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "30s"
+  }
+}

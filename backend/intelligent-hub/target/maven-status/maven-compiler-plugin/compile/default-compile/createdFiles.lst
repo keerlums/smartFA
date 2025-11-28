@@ -1,0 +1,12 @@
+com/smartfa/hub/dto/TaskUpdateDTO.class
+com/smartfa/hub/entity/Task.class
+com/smartfa/hub/IntelligentHubApplication.class
+com/smartfa/hub/controller/TaskController.class
+com/smartfa/hub/service/TaskService.class
+com/smartfa/hub/dto/SubTaskDto$SubTaskDtoBuilder.class
+com/smartfa/hub/entity/Task$TaskStatus.class
+com/smartfa/hub/entity/Task$TaskType.class
+com/smartfa/hub/service/TaskDecompositionService$1.class
+com/smartfa/hub/service/TaskDecompositionService.class
+com/smartfa/hub/dto/SubTaskDto.class
+com/smartfa/hub/dto/TaskCreateDTO.class

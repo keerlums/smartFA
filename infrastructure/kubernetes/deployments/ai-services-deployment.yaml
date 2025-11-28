@@ -1,0 +1,178 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smartfa-image-analysis
+  namespace: smartfa
+  labels:
+    app: smartfa-image-analysis
+    component: ai-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: smartfa-image-analysis
+  template:
+    metadata:
+      labels:
+        app: smartfa-image-analysis
+        component: ai-service
+    spec:
+      containers:
+      - name: image-analysis
+        image: smartfa/image-analysis:latest
+        ports:
+        - containerPort: 8001
+        env:
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka-service:9092"
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8001
+          initialDelaySeconds: 120
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8001
+          initialDelaySeconds: 60
+          periodSeconds: 10
+        volumeMounts:
+        - name: model-cache
+          mountPath: /app/models
+      volumes:
+      - name: model-cache
+        persistentVolumeClaim:
+          claimName: model-cache-pvc
+      imagePullSecrets:
+      - name: registry-secret
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smartfa-document-analysis
+  namespace: smartfa
+  labels:
+    app: smartfa-document-analysis
+    component: ai-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: smartfa-document-analysis
+  template:
+    metadata:
+      labels:
+        app: smartfa-document-analysis
+        component: ai-service
+    spec:
+      containers:
+      - name: document-analysis
+        image: smartfa/document-analysis:latest
+        ports:
+        - containerPort: 8002
+        env:
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka-service:9092"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8002
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8002
+          initialDelaySeconds: 30
+          periodSeconds: 10
+      imagePullSecrets:
+      - name: registry-secret
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smartfa-llm-service
+  namespace: smartfa
+  labels:
+    app: smartfa-llm-service
+    component: ai-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smartfa-llm-service
+  template:
+    metadata:
+      labels:
+        app: smartfa-llm-service
+        component: ai-service
+    spec:
+      containers:
+      - name: llm-service
+        image: smartfa/llm-service:latest
+        ports:
+        - containerPort: 8003
+        env:
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: KAFKA_BOOTSTRAP_SERVERS
+          value: "kafka-service:9092"
+        - name: MODEL_PATH
+          value: "/app/models"
+        resources:
+          requests:
+            memory: "4Gi"
+            cpu: "2000m"
+          limits:
+            memory: "8Gi"
+            cpu: "4000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8003
+          initialDelaySeconds: 180
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8003
+          initialDelaySeconds: 120
+          periodSeconds: 10
+        volumeMounts:
+        - name: llm-models
+          mountPath: /app/models
+      volumes:
+      - name: llm-models
+        persistentVolumeClaim:
+          claimName: llm-models-pvc
+      imagePullSecrets:
+      - name: registry-secret
+      nodeSelector:
+        accelerator: nvidia-tesla-v100  # GPU节点选择器

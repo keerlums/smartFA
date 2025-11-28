@@ -1,0 +1,30 @@
+{
+  "agents": [
+    {
+      "id": "image_analyzer_001",
+      "type": "image_analysis",
+      "config": {
+        "max_image_size": 10485760,
+        "supported_formats": [".jpg", ".jpeg", ".png", ".bmp", ".tiff"],
+        "processing_timeout": 300,
+        "confidence_threshold": 0.7
+      }
+    },
+    {
+      "id": "data_processor_001", 
+      "type": "data_processing",
+      "config": {
+        "max_data_size": 104857600,
+        "batch_size": 1000,
+        "processing_timeout": 600,
+        "memory_limit": 1073741824
+      }
+    }
+  ],
+  "framework": {
+    "log_level": "INFO",
+    "heartbeat_interval": 30,
+    "max_concurrent_tasks": 10,
+    "message_queue_size": 1000
+  }
+}
